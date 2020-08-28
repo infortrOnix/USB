@@ -31,15 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
             requestPermissions(new String[]{Manifest.permission.CALL_PHONE},1000);
         }
-
         //
-
         msjUsb = new MensajeUsb();
-       // registerReceiver(msjUsb, new IntentFilter("android.hardware.usb.action.USB_STATE"));
-
-
-        //
-
 
     }
 
@@ -48,17 +41,15 @@ public class MainActivity extends AppCompatActivity {
 
         //this.msjUsb = new MensajeUsb();
         registerReceiver(this.msjUsb, new IntentFilter("android.hardware.usb.action.USB_STATE"));
-        Toast.makeText(this, "Main : "+msjUsb.estado, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Main : "+msjUsb.estado, Toast.LENGTH_LONG).show();//uso este Toas para leer el valor del estado como chequeo
 
         // hacer llamada
         if(msjUsb.estado){
-
             Toast.makeText(this, "Llamando....", Toast.LENGTH_LONG).show();
             llamar();
         }
-        //
+       //
         super.onResume();
-
     }
 
     @Override
@@ -69,15 +60,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void llamar(){
-        String numero="2665112286";
+        String numero="0001";//uso este numero no valido para evitar la llamada real que ya probe hacerla
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(Uri.parse("tel:"+numero));
         startActivity(intent);
 
     }
 
-
-    //permisos
-
-    //fin permisos
 }
