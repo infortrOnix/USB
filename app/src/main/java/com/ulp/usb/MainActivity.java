@@ -20,6 +20,7 @@ import static android.Manifest.permission.READ_CALL_LOG;
 public class MainActivity extends AppCompatActivity {
 
     private MensajeUsb msjUsb;
+    private boolean control=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.CALL_PHONE},1000);
         }
         //
+        control=true;
         msjUsb = new MensajeUsb();
+
 
     }
 
@@ -45,8 +48,15 @@ public class MainActivity extends AppCompatActivity {
 
         // hacer llamada
         if(msjUsb.estado){
-            Toast.makeText(this, "Llamando....", Toast.LENGTH_LONG).show();
-            llamar();
+
+            if(control){
+                control=false;
+                onStop();
+                llamar();
+            }
+
+
+
         }
        //
         super.onResume();
@@ -54,12 +64,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        super.onPause();
+
+
         unregisterReceiver(msjUsb);
+        super.onPause();
 
     }
 
     public void llamar(){
+        Toast.makeText(this, "Llamando....", Toast.LENGTH_LONG).show();
         String numero="0001";//uso este numero no valido para evitar la llamada real que ya probe hacerla
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(Uri.parse("tel:"+numero));
@@ -67,4 +80,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        control=true;
+        Toast.makeText(this, "OnStart", Toast.LENGTH_SHORT).show();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        Toast.makeText(this, "OnStop", Toast.LENGTH_SHORT).show();
+        super.onStop();
+    }
 }
