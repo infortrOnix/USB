@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         //
         control=true;
         msjUsb = new MensajeUsb();
-        
+
 
 
     }
